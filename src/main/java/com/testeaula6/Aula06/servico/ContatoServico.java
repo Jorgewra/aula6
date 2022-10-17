@@ -29,19 +29,20 @@ public class ContatoServico {
 			throw new Exception(e.getMessage());
 		}
 	}
-	public void alterar(Contato contato, Long id) throws Exception {
+	public Contato alterar(Contato contato, Long id) throws Exception {
 		try {
 			Optional<Contato> objeto = repository.findById(id);
 			objeto.get().setNome(contato.getNome());
 			objeto.get().setSexo(contato.getSexo());
 			objeto.get().setTelefone(contato.getTelefone());
-			
+			objeto.get().setTelefone(contato.getObservacao());
 			repository.save(objeto.get());
+			return objeto.get();
 		}catch (Exception e) {
 			throw new Exception(e.getMessage());
 		}
 	}
-	public void delatar(Long id) throws Exception {
+	public void deletar(Long id) throws Exception {
 		try {
 			repository.deleteById(id);
 		}catch (Exception e) {

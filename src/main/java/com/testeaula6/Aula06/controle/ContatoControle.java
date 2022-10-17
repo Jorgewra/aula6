@@ -3,11 +3,11 @@ package com.testeaula6.Aula06.controle;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,14 +47,16 @@ public class ContatoControle {
 	@PutMapping(path = "/update") // Map ONLY POST Requests
 	public ResponseEntity<Contato> update(@RequestBody Contato contato, @RequestParam Long id) {
 		try {
-			return ResponseEntity.ok(new Contato());
+			var objeto = contatoRepository.alterar(contato,id);
+			return ResponseEntity.ok(objeto);
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-	@DeleteMapping(path = "/delete") // Map ONLY POST Requests
-	public ResponseEntity<String> delete(@RequestParam Long id) {
+	@DeleteMapping(path = "/delete/{id}") // Map ONLY POST Requests
+	public ResponseEntity<String> delete( @PathVariable("id") Long id) {
 		try {
+			contatoRepository.deletar(id);
 			return ResponseEntity.ok("OK");
 		} catch (Exception e) {
 			return ResponseEntity.badRequest().build();
